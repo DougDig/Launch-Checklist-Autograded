@@ -2,12 +2,13 @@
 
 // const { pickPlanet, myFetch, validateInput, addDestinationInfo, formSubmission } = require("./scriptHelper");
 
-//require statement seems to break event listeners for some reason
+// require statement seems to break event listeners for some reason, below statement to be commented in for demonstration
+// const myFetch = require("./scriptHelper")
 
 window.addEventListener("load", function() {
     let form = document.querySelector("form");
     form.addEventListener("submit", function(event) {
-        document.getElementById("faultyItems").style = "visibility: visible";
+        //sucessful submission behaviour not fully defined, comment out below line to change to submit on success
         event.preventDefault();
         formReset();
         
@@ -15,12 +16,13 @@ window.addEventListener("load", function() {
         const inputCopilotName = (document.querySelector("input[name=copilotName]")).value;
         const inputFuelLevel = Number((document.querySelector("input[name=fuelLevel]")).value);
         const inputCargoMass = Number((document.querySelector("input[name=cargoMass]")).value);
-
+        
         if (!(validateInput(inputPilotName) === "Not a Number" &&
             validateInput(inputCopilotName) === "Not a Number" &&
             validateInput(inputFuelLevel) === "Is a Number" &&
             validateInput(inputCargoMass) === "Is a Number")) {           
             window.alert("Invalid Input, Use Names and Numbers");
+            event.preventDefault();
             return;  
         };
 
@@ -47,8 +49,8 @@ function readyForLaunch(){
 
 function formReset(){
     readyForLaunch();
-    document.getElementById("faultyItems").style = "visibility: hidden";
     document.getElementById("launchStatus").style = "color : black";
+    document.getElementById("faultyItems").style = "visibility: hidden";
     document.getElementById("launchStatus").innerHTML = "Awaiting Information Before Launch";
     document.getElementById("pilotStatus").innerHTML = "Pilot Ready";
     document.getElementById("copilotStatus").innerHTML = "Co-pilot Ready";
@@ -96,6 +98,7 @@ function validateInput(testInput) {
     if (ready === 0){notReadyForLaunch()}else{readyForLaunch()};
  }
 
+ //comment out this line for demonstration of problem
  async function myFetch() {return await fetch("https://handlers.education.launchcode.org/static/planets.json")}
 
  function pickPlanet(planets) {
